@@ -57,4 +57,15 @@ resource "aws_key_pair" "ec2_key_pair" {
   public_key = file("~/.ssh/Sec-Key.pub")
 }
 
+#  Create a new EC2 instance
+resource "aws_instance" "new_instance" {
+  ami           = "ami-0faab6bdbac9486fb"
+  instance_type = "t2.micro"
+  key_name      = aws_key_pair.ec2_key_pair.key_name
+  security_groups = [aws_security_group.ec2_security_group.name]
+
+  tags = {
+    Name = "new_instance"
+  }
+}
 

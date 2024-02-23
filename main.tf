@@ -39,14 +39,14 @@ resource "aws_security_group" "ec2_security_group" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]  
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]  
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
@@ -59,9 +59,9 @@ resource "aws_key_pair" "ec2_key_pair" {
 
 #  Create a new EC2 instance
 resource "aws_instance" "new_instance" {
-  ami           = "ami-0faab6bdbac9486fb"
-  instance_type = "t2.micro"
-  key_name      = aws_key_pair.ec2_key_pair.key_name
+  ami             = "ami-0faab6bdbac9486fb"
+  instance_type   = "t2.micro"
+  key_name        = aws_key_pair.ec2_key_pair.key_name
   security_groups = [aws_security_group.ec2_security_group.name]
 
   tags = {
@@ -69,3 +69,17 @@ resource "aws_instance" "new_instance" {
   }
 }
 
+
+# Create a new RDS instance 
+resource "aws_db_instance" "new_db_instance" {
+  allocated_storage    = 20
+  storage_type         = "gp2"
+  engine               = "postgres"
+  instance_class       = "db.t3.micro"
+  username             = "postgres"
+  password             = "password"
+
+  tags = {
+    Name = "new_db_instance"
+  }
+}

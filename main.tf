@@ -51,4 +51,10 @@ resource "aws_security_group" "ec2_security_group" {
 }
 
 
+# Create a new EC2 key pair
+resource "aws_key_pair" "ec2_key_pair" {
+  key_name   = "ec2_key_pair"
+  public_key = file("~/.ssh/Sec-Key.pub")
+}
+
 
